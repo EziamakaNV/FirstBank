@@ -1,7 +1,7 @@
-var $result1 = $('#result1'); //Number Format Paragraph
-var $result2 = $('#result2'); //Password Paragraph Format
-var $submit = $('#submit');
-var submitValue; 
+const $result1 = $('#result1'); //Number Format Paragraph
+const $result2 = $('#result2'); //Password Paragraph Format
+const $submit = $('#submit');
+let submitValue; 
 //regular expression  for nigerian phone number
 function validateNumber (number){
 let re = /^[0]\d{10}$/;
@@ -13,11 +13,11 @@ function validate(){
 
 	if (validateNumber(number)){
 		
-		$result1.text("Number Format Is Correct!");
+		$result1.text(`Number Format Is Correct!`);
 	}
 	else{
 		
-		$result1.text("Number Format Is Incorrect!");
+		$result1.text(`Number Format Is Incorrect!`);
 	}
 	return false;
 }
@@ -26,18 +26,18 @@ $('#validate').keyup(validate);
 //On keyup, check if passwords match and display corresponding text
 $('#ps2').keyup(function(){
 	if (($('#ps2').val()===$('#ps1').val()) && submitValue === true){
-		$result2.text('Password Match!');
-		$submit.css('display','block');
+		$result2.text(`Password Match!`);
+		$submit.css(`display`,`block`);
 	}
 	else {
-		$result2.text('Password Does Not Match');
+		$result2.text(`Password Does Not Match`);
 	}
 });
 
 
 $('#validate').blur(function(){
 	$.ajax({
-		url: "http://10.10.141.243:9000/QTest/GetGeekId/" + $('#validate').val(),
+		url: `${testNumberAjax}${$('#validate').val()}`,
 		method: "GET",
 		dataType: "json",
 		success: function(data){
@@ -59,7 +59,7 @@ $('#validate').blur(function(){
 );
 $submit.on('click',function(){
 	$.ajax({
-    	url : "http://10.10.141.243:9000/GeekReg/"+$("#validate").val()+"/crit/"+$('#ps2').val(),
+    	url : `${submitButtonAjax}${$("#validate").val()}/crit/${$('#ps2').val()}`,
 		method: 'POST',
 		// data: $('#validate').val()+"/crit/"+$('#ps2').val() ,
 		dataType: 'json',
@@ -71,3 +71,28 @@ $submit.on('click',function(){
 		}
 	});
 })
+//login script
+function regPage(){
+    window.location.assign('registration.html');
+}
+
+//registration script
+$('#registerCustomer').click(function(){
+	$.ajax({
+		url : `${enrolApi}${geekNumber}/enrl/${$('#customerNumber').val()}`,
+		method: 'POST',
+		dataType: 'json',
+		success: function(data){
+			if (data.result === 1){
+				$('#regResult').html(`Success! ${$('#customerNumber').val()} successfully registered!`);
+			}
+			else if (data.result === -1) {
+				$('#regResult').html(`Registration not successful. User(${$('#customerNumber').val()}) already exists!`);
+			}
+			console.log(data);
+		},
+		error: function(data){
+			console.log('error');
+		}
+	});
+});
