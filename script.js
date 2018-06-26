@@ -75,6 +75,28 @@ $submit.on('click',function(){
 function regPage(){
     window.location.assign('registration.html');
 }
+$('span.loginbttn1').click(function(){
+	$.ajax({
+    	url : `${loginApi}${$('#number').val()}/${$('#password').val()}`,
+		method: 'GET',
+		// data: $('#validate').val()+"/crit/"+$('#ps2').val() ,
+		dataType: 'json',
+		success: function(data){
+			$('div.login_fields').remove();
+			$('div.loginbttn').remove();
+			$('div.login').append('<p id = \'logSuccess\'>Login Successful<p>');
+			console.log(data);
+		},
+		error: function(data){
+			console.log('Did Not Succeed');
+			$('div.login_fields').remove();
+			$('div.loginbttn').remove();
+			$('div.login').append('<p id = \'logSuccess\'>Unsuccessful<p>');
+			setTimeout(_ => location.reload(),4000);
+			console.log(data);
+		}
+	});
+});
 
 //registration script
 $('#registerCustomer').click(function(){
