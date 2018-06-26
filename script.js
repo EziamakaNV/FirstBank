@@ -79,7 +79,6 @@ $('span.loginbttn1').click(function(){
 	$.ajax({
     	url : `${loginApi}${$('#number').val()}/${$('#password').val()}`,
 		method: 'GET',
-		// data: $('#validate').val()+"/crit/"+$('#ps2').val() ,
 		dataType: 'json',
 		success: function(data){
 			$('div.login_fields').remove();
@@ -88,7 +87,7 @@ $('span.loginbttn1').click(function(){
 			console.log(data);
 		},
 		error: function(data){
-			console.log('Did Not Succeed');
+			//on fail display message and reload page
 			$('div.login_fields').remove();
 			$('div.loginbttn').remove();
 			$('div.login').append('<p id = \'logSuccess\'>Unsuccessful<p>');
@@ -98,7 +97,9 @@ $('span.loginbttn1').click(function(){
 	});
 });
 
-//registration script
+//Profile page script
+
+//script to store customer phone number to database
 $('#registerCustomer').click(function(){
 	$.ajax({
 		url : `${enrolApi}${geekNumber}/enrl/${$('#customerNumber').val()}`,
